@@ -38,6 +38,7 @@ def whois_info():
              elif ip == '':
                 break;exit()
 
+
 def ph():
     number = input('Введите номер телефона: ')
     try:
@@ -77,6 +78,7 @@ def sniff_start():
           except Exception as e:
                  print('Error:', e)
 
+
 def source_ip():
     domain = str(input('Domain: '))
     if domain:
@@ -85,8 +87,72 @@ def source_ip():
        except Exception as e:
               print(f'Error: {e}')
 
+
+def hlp():
+    yellow = colorama.Fore.LIGHTYELLOW_EX
+    red = colorama.Fore.RED
+    green = colorama.Fore.GREEN
+    magneta = colorama.Fore.LIGHTMAGENTA_EX
+    print('''Usage: ./DorkingScriptArg.py   URL Type targets protocols:  http://example.com/  or  https://example.com/ ''')
+    img_display=(f"{colorama.Back.BLACK}{colorama.Fore.RED}"+f'''
+                                                                               mmmm      m
+   mmmm                         "                   mmmm                  "    #" "#   mm#mm
+   #   "m  mmm    m mm   mmm   mmm    m mm    mmmm  #"   "  mmm    m mm  mmm   #    #    #
+   #    # #" "#   #"  " #"  "    #    #"  #  #" "#  "#mmm  #"  "   #"  "   #   ##m#"     #
+   #    # #   #   #     #        #    #   #  #   #      "# #       #       #   #         "mm
+   #mmm"  "#m#"   #     "#mm"  mm#mm  #   #  "#m"#  "mmm#" "#mm"   #     mm#mm "
+                                              mmm#
+
++===================================================================+
+|       {colorama.Fore.GREEN}[{colorama.Fore.LIGHTYELLOW_EX}Developer{colorama.Fore.LIGHTMAGENTA_EX}: {colorama.Fore.LIGHTYELLOW_EX}https://github.com/Hayper229{colorama.Fore.GREEN}]{colorama.Back.BLACK}{colorama.Fore.RED}                   |
++-------------------------------------------------------------------+
+|===================================================================|
+|                {colorama.Fore.GREEN}DorkingScript-Version {colorama.Fore.LIGHTMAGENTA_EX}> {colorama.Fore.LIGHTYELLOW_EX}FullConsole{colorama.Back.BLACK}{colorama.Fore.RED}                |
++-------------------------------------------------------------------+
+''')
+    print(img_display)
+
+def main_func(url: str, wordlist: str):
+    hlp()
+    print('Please enter url | URL examples <http://example.com/ | https://example.com/')
+    wordlist = wordlist
+    if not os.path.exists(wordlist):
+       print('Wordlist not found.')
+    else:
+        codes = [200, 300, 301, 302, 303]
+        with open(f'{wordlist}', 'r') as f:
+             save = f.read()
+             savef = save.split()
+             print(f'{colorama.Fore.GREEN}[{colorama.Fore.LIGHTYELLOW_EX}!{colorama.Fore.GREEN}[{colorama.Fore.RED}Search for directorys and files{colorama.Fore.GREEN}]{colorama.Fore.LIGHTYELLOW_EX}!{colorama.Fore.GREEN}]{colorama.Fore.RED}')
+             url = url.rstrip('/')
+             for file in savef:
+                 main_url=url+'/'+file
+                 try:
+                    resp = requests.get(main_url)
+                 except Exception as e:
+                        print(f'{colorama.Fore.LIGHTYELLOW_EX}Error {colorama.Fore.RED}{e}{colorama.Fore.RED}')
+                        pass
+                 for code in codes:
+                     if resp.status_code == code:
+                        print(f'\n{colorama.Fore.GREEN}[{colorama.Fore.RED}DIR{colorama.Fore.LIGHTYELLOW_EX}\{colorama.Fore.RED}FILE{colorama.Fore.GREEN}]{colorama.Fore.LIGHTMAGENTA_EX}: {colorama.Fore.LIGHTYELLOW_EX}/{file}')
+                        print(f'{colorama.Fore.GREEN}[{colorama.Fore.RED}URL{colorama.Fore.GREEN}]{colorama.Fore.LIGHTMAGENTA_EX}: {colorama.Fore.LIGHTYELLOW_EX}{resp.url} {colorama.Fore.GREEN}[{colorama.Fore.RED}CODE{colorama.Fore.GREEN}]{colorama.Fore.LIGHTMAGENTA_EX}: {colorama.Fore.LIGHTGREEN_EX}{resp.status_code}{colorama.Fore.RED}')
+                        break
+
+
+
+def DorkingScriptFunc():
+    try:
+       url = input('@DSARG > ')
+       wordlist = input('Enter your wordlist: ')
+       main_func(url, wordlist)
+    except:
+          print('Введите URL!')
+          url = input('@DSARG > ')
+          main_func(url)
+
+
 def logo():
-     print(f"{Back.BLACK}{Fore.GREEN}"+'''
+    print(f"{Back.BLACK}{Fore.GREEN}"+'''
 
  ____  _____    _    ____  _____               _ _
 |  _ \| ____|  / \  |  _ \|  ___|__  ___   ___(_) |_ _   _
@@ -107,7 +173,7 @@ def menu():
 [+] 7 Parser
 [+] 8 PNum
 [+] 9 UDPDosser UDP, TCP, TLSv1.1, TLSv1.2, TLSv1.3
-[+] 10 DorkingScriptConsole   Finding directories and files
+[+] 10 DorkingScriptConsole   Finding directorys and files
 [+] 11 PHParser
 [+] 12 DNSinfo
 [+] 13 Whois
@@ -125,7 +191,7 @@ def main():
     elif a == 7:os.system('./pars.py')
     elif a == 8:ph()
     elif a == 9:os.system('./UDPDosser.py  ')
-    elif a == 10:os.system('./DorkingScriptConsole.py ')
+    elif a == 10:DorkingScriptFunc()
     elif a == 11:os.system('./parser.php')
     elif a == 12:dnsinf()
     elif a == 13:whois_info()
